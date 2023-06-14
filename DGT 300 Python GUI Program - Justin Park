@@ -13,11 +13,11 @@ root.geometry("600x650")  # Sets the GUI width and height
 root.configure(bg="#A4D2CF")  # Sets the background color of the quiz program
 
 # Photo Images
-logo = ImageTk.PhotoImage(file=r"C:\Users\justin.park\PycharmProjects\internal\logo.png")
-easy = ImageTk.PhotoImage(file=r"C:\Users\justin.park\PycharmProjects\internal\Easy Mode.png")
-hard = ImageTk.PhotoImage(file=r"C:\Users\justin.park\PycharmProjects\internal\Hard Mode.png")
-easyv2 = ImageTk.PhotoImage(file=r"C:\Users\justin.park\PycharmProjects\internal\Easy Mode 2.png")
-hardv2 = ImageTk.PhotoImage(file=r"C:\Users\justin.park\PycharmProjects\internal\Hard Mode 2.png")
+logo = ImageTk.PhotoImage(file=r"logo.png")
+easy = ImageTk.PhotoImage(file=r"Easy Mode.png")
+hard = ImageTk.PhotoImage(file=r"Hard Mode.png")
+easyv2 = ImageTk.PhotoImage(file=r"Easy Mode 2.png")
+hardv2 = ImageTk.PhotoImage(file=r"Hard Mode 2.png")
 
 # Welcome Screen
 def welcome_screen():
