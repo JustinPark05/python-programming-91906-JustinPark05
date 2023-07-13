@@ -31,11 +31,35 @@ def welcome_screen():
                              bg="#A4D2CF")  # Sets the background color of the label and makes the text bold
     welcome_label.place(x=300, y=100, anchor="center")  # Sets the x and y position of the label in the welcome screen
 
-    # Help Icon
-    help_icon_label = tk.Label(root, image=help_icon, bg="#A4D2CF")
-    help_icon_label.place(x=10, y=10)  # Adjust the x and y coordinates to position the icon
-    help_icon_label.bind("<Enter>", lambda event: help_icon_label.config(image=help_iconv2))  # Change image on mouse enter
-    help_icon_label.bind("<Leave>",lambda event: help_icon_label.config(image=help_icon))  # Change back to original image on mouse leave
+    def open_help_window():
+        help_window = tk.Toplevel(root)
+        help_window.title("How To Play Justin’s Quiz Game")
+        help_window.geometry("600x650")
+        help_window.configure(bg="#A4D2CF")
+
+        title_label = tk.Label(help_window, text="How To Play Justin’s Quiz Game", font=("Helvetica", 16, "bold"),
+                               bg="#A4D2CF", fg="#000000")
+        title_label.pack(pady=10)
+
+        info_frame = tk.Frame(help_window, bg="#1CB9F6", bd=2, relief=tk.SOLID)
+        info_frame.pack(pady=10, padx=20)
+
+        info_label = tk.Label(info_frame, text="Hello, Player!\n\n"
+                                               "• A set of questions will show up for you to answer.\n"
+                                               "• You will have the choice to either play easy mode or hard mode depending on your knowledge of country flags and if you’re up for a challenge.\n"
+                                               "• To play, just press the play button and click the correct answer for the country flag shown.",
+                              font=("Helvetica", 12), bg="#1CB9F6", fg="#000000")
+        info_label.pack(padx=10, pady=10)
+
+        close_label = tk.Label(help_window, text="You may close this when you are ready to play!",
+                               font=("Helvetica", 12), bg="#A4D2CF", fg="#000000")
+        close_label.pack(pady=10)
+
+    # Help Icon Button
+    help_icon_button = tk.Button(root, image=help_icon, bg="#A4D2CF", relief=tk.FLAT, command=open_help_window)
+    help_icon_button.place(x=10, y=10)
+    help_icon_button.bind("<Enter>", lambda event: help_icon_button.config(image=help_iconv2))
+    help_icon_button.bind("<Leave>", lambda event: help_icon_button.config(image=help_icon))
 
     quiz_logo = tk.Label(root, image=logo, bg="#A4D2CF")  # Image of quiz logo
     quiz_logo.place(x=146, y=170)  # Centres the logo
@@ -70,12 +94,21 @@ def rules_screen():
                              font=("Helvetica", 14), bg="#1CB9F6", fg="#000000")  # Lists the rules of the quiz game
     rules_content.pack(padx=10, pady=5)
 
-    # Help Icon
-    help_icon_label = tk.Label(root, image=help_icon, bg="#A4D2CF")
-    help_icon_label.place(x=10, y=10)  # Adjust the x and y coordinates to position the icon
-    help_icon_label.bind("<Enter>",
-                         lambda event: help_icon_label.config(image=help_iconv2))  # Change image on mouse enter
-    help_icon_label.bind("<Leave>", lambda event: help_icon_label.config(image=help_icon))  # Change back to original image on mouse leave
+    def open_help_window():
+        help_window = tk.Toplevel(root)
+        help_window.title("Help")
+        help_window.geometry("600x650")
+        help_window.configure(bg="#A4D2CF")
+
+        help_label = tk.Label(help_window, text="This is the help window.", font=("Helvetica", 16), bg="#A4D2CF",
+                              fg="#000000")
+        help_label.pack(pady=50)
+
+    # Help Icon Button
+    help_icon_button = tk.Button(root, image=help_icon, bg="#A4D2CF", relief=tk.FLAT, command=open_help_window)
+    help_icon_button.place(x=10, y=10)
+    help_icon_button.bind("<Enter>", lambda event: help_icon_button.config(image=help_iconv2))
+    help_icon_button.bind("<Leave>", lambda event: help_icon_button.config(image=help_icon))
 
     guide_label = tk.Label(rules_frame, text="Quiz Modes", font=("Helvetica", 18, "bold"), bg="#A4D2CF",
                            fg="#000000")  # Creates the label for the game modes guide
@@ -203,7 +236,6 @@ class EasyQuestions:
         self.option_two.configure(width=self.turn_width_into_pixel)
         self.option_three.configure(width=self.turn_width_into_pixel)
         self.option_four.configure(width=self.turn_width_into_pixel)
-
     def check_answer(self, selected_button):
         if selected_button["text"] == self.correct_answer:
             selected_button.configure(bg="green")  # Highlight the selected button in green
@@ -215,14 +247,12 @@ class EasyQuestions:
             incorrect_answer_label = tk.Label(self.question_ans_frame, text="Incorrect!", font=("Helvetica", 16),
                                               bg="#A4D2CF", fg="red")
             incorrect_answer_label.pack(pady=10)
-
     def next_question(self):
         self.question_ans_frame.destroy()
 
-
 # Creating the questions using classes for hard mode
 class HardQuestions:
-    def __init__(self, question, flag1, option_one, option_two, option_three, option_four, master=root):
+    def __init__(self, question, flag1, option_one, option_two, option_three, option_four, arrow, master=root):
         self.width_frame = '600'
         self.bg_frame = "#A4D2CF"
         self.question = question
@@ -231,6 +261,7 @@ class HardQuestions:
         self.option_two = option_two
         self.option_three = option_three
         self.option_four = option_four
+        self.correct_answer = "Canada"  # Set the correct answer for the question
 
         self.question_ans_frame = tk.Frame(master, width=self.width_frame, bg='#A4D2CF', height="640")
         self.question_ans_frame.pack()
@@ -246,6 +277,28 @@ class HardQuestions:
         self.flag_image = tk.Label(self.question_ans_frame, image=self.flag1, background=self.bg_frame)
         self.flag_image.pack(pady=(10, 20))
 
+        self.arrow_button = tk.Button(self.question_ans_frame, image=arrow, bg="#A4D2CF", relief=tk.FLAT,
+                                      command=self.next_question)  # Set the image and add command for the button
+        self.arrow_button.place(x=450, y=170)  # Adjust the coordinates according to your desired position
+        self.arrow_button.bind("<Enter>",lambda event: self.arrow_button.config(image=arrowv2))  # Change image on mouse enter
+        self.arrow_button.bind("<Leave>", lambda event: self.arrow_button.config(image=arrow))  # Change back to original image on mouse leave
+
+        self.options_frame_one = tk.Frame(self.question_ans_frame, background=self.bg_frame)
+        self.options_frame_one.pack(pady=(0, 20))
+
+    def check_answer(self, selected_button):
+        if selected_button["text"] == self.correct_answer:
+            selected_button.configure(bg="green")  # Highlight the selected button in green
+            correct_answer_label = tk.Label(self.question_ans_frame, text="Correct!", font=("Helvetica", 16),
+                                            bg="#A4D2CF", fg="green")
+            correct_answer_label.pack(pady=10)
+        else:
+            selected_button.configure(bg="red")  # Highlight the selected button in red
+            incorrect_answer_label = tk.Label(self.question_ans_frame, text="Incorrect!", font=("Helvetica", 16),
+                                              bg="#A4D2CF", fg="red")
+            incorrect_answer_label.pack(pady=10)
+    def next_question(self):
+        self.question_ans_frame.destroy()
 
 # Easy Mode
 def easy_mode():
@@ -323,7 +376,7 @@ def hard_mode():
         if i < 0:
             countdown_label.destroy()
             title_frame.destroy()
-            Q1 = HardQuestions('What flag is this?', canada_flag, "Canada", "India", "Japan", "China")
+            Q1 = HardQuestions('What flag is this?', canada_flag, "Canada", "India", "Japan", "China", arrow)
         elif i > 0:
             countdown_label.config(text=str(i))  # Update the countdown text
             countdown_label.after(1000, start_countdown,
