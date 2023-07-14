@@ -22,6 +22,8 @@ arrow = ImageTk.PhotoImage(file="Arrow.png")
 arrowv2 = ImageTk.PhotoImage(file="Arrow 2.png")
 help_icon = ImageTk.PhotoImage(file="Help Icon.png")
 help_iconv2 = ImageTk.PhotoImage(file="Help Icon 2.png")
+confetti = ImageTk.PhotoImage(file="Confetti.png")
+confettiv2 = ImageTk.PhotoImage(file="Confetti 2.png")
 
 # Easy Mode Flags
 canada_flag = ImageTk.PhotoImage(file="Canada.png")
@@ -230,13 +232,53 @@ def next_question():
         children_list.append(each_children)
     deleting_frame = children_list[2]
     deleting_frame.destroy()
-    # EasyQuestions(canada_flag, "Lol", "India", "Japan", "China", "China")
-    EasyQuestions(flags_list_easymode[Q_number], options_easymode[Q_number][0], options_easymode[Q_number][1], options_easymode[Q_number][2],
-                  options_easymode[Q_number][3], correct_answers_easymode[Q_number])
-    Q_number += 1
-    if Q_number >= len(flags_list_easymode):
-        print('finish')
 
+    if Q_number < len(flags_list_easymode):
+        EasyQuestions(flags_list_easymode[Q_number], options_easymode[Q_number][0], options_easymode[Q_number][1], options_easymode[Q_number][2],
+                      options_easymode[Q_number][3], correct_answers_easymode[Q_number])
+        Q_number += 1
+    else:
+        # Congratulations screen
+        clear_screen()
+        congratulations_screen()
+
+# Congratulations screen
+def congratulations_screen():
+    clear_screen()
+    root.configure(bg="#FFFF00")  # Change background color to yellow
+
+    congratulations_label = tk.Label(root, text="CONGRATULATIONS!", font=("Helvetica", 22, "bold"),
+                                     bg="#FFFF00", fg="#000000")
+    congratulations_label.place(x=300, y=100, anchor="center")
+
+    confetti_label = tk.Label(root, image=confetti, bg="#FFFF00")
+    confetti_label.place(x=0, y=650, relwidth=0.5, anchor="sw")
+
+    confetti2_label = tk.Label(root, image=confettiv2, bg="#FFFF00")
+    confetti2_label.place(x=600, y=650, relwidth=0.5, anchor="se")
+
+    # Create a colored frame
+    frame = tk.Frame(root, bg="#1CB9F6", bd=2, relief=tk.SOLID)
+    frame.place(x=150, y=400, width=300, height=200)
+
+    # Calculate time taken
+    time_taken = 0
+
+    # Calculate score and accuracy percentage
+    num_correct_answers = score
+    accuracy_percentage = int((num_correct_answers / total_questions) * 100)
+
+    # Label containing the statistics
+    content_label = tk.Label(frame, text=f"Congratulations on completing the quiz!\n"
+                                          f"You took {time_taken} to finish the quiz!\n"
+                                          f"You got {num_correct_answers}/{total_questions} questions correct!\n"
+                                          f"You scored a {accuracy_percentage}% accuracy!",
+                             font=("Helvetica", 16), bg="#1CB9F6", fg="#000000")
+    content_label.pack(pady=20)
+
+    export_button = tk.Button(frame, text="Export Statistics", font=("Helvetica", 14), bg="#A4D2CF", fg="#000000",
+                              relief=tk.SOLID, bd=2, padx=10, pady=5)
+    export_button.pack()
 
 # Creating the questions using classes for easy mode
 class EasyQuestions:
@@ -506,8 +548,8 @@ def hard_mode():
 
 # Starts the quiz game
 def start_game(countdown_label, timer_label):
-    update_timer(timer_label, 0)  # Start the timer at 0 seconds
-
+    seconds = 0
+    update_timer(timer_label, seconds)  # Start the timer at 0 seconds
 
 # Update the timer label
 def update_timer(timer_label, seconds):
@@ -516,6 +558,13 @@ def update_timer(timer_label, seconds):
     timer_label.config(text=f"{minutes}:{seconds_remaining:02d}")
     seconds += 1
     timer_label.after(1000, update_timer, timer_label, seconds)  # Update the timer after 1 second
+
+    # Check if the last question has been answered
+    if Q_number == len(flags_list_easymode):
+        congratulations_screen(time_taken)  # Pass the time_taken_label to the congratulations function
+        return  # Stop the timer if all questions have been answered
+
+    timer_label.after(1000, update_timer, timer_label, time_taken_label, seconds)  # Update the timer after 1 second
 
 
 # Clears the screen
