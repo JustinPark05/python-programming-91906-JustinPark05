@@ -22,7 +22,42 @@ arrow = ImageTk.PhotoImage(file="Arrow.png")
 arrowv2 = ImageTk.PhotoImage(file="Arrow 2.png")
 help_icon = ImageTk.PhotoImage(file="Help Icon.png")
 help_iconv2 = ImageTk.PhotoImage(file="Help Icon 2.png")
-canada_flag = ImageTk.PhotoImage(file="image 12.png")
+# Easy Mode Flags
+canada_flag = ImageTk.PhotoImage(file="Canada.png")
+america_flag = ImageTk.PhotoImage(file="America.png")
+south_africa_flag = ImageTk.PhotoImage(file="South Africa.png")
+switzerland_flag = ImageTk.PhotoImage(file="Switzerland.png")
+turkey_flag = ImageTk.PhotoImage(file="Turkey.png")
+united_kingdom_flag = ImageTk.PhotoImage(file="United Kingdom.png")
+south_korea_flag = ImageTk.PhotoImage(file="South Korea.png")
+japan_flag = ImageTk.PhotoImage(file="Japan.png")
+france_flag = ImageTk.PhotoImage(file="France.png")
+new_zealand_flag = ImageTk.PhotoImage(file="New Zealand.png")
+# Hard Mode Flags
+sweden_flag = ImageTk.PhotoImage(file="Sweden.png")
+jamaica_flag = ImageTk.PhotoImage(file="Jamaica.png")
+romania_flag = ImageTk.PhotoImage(file="Romania.png")
+azerbaijan_flag = ImageTk.PhotoImage(file="Azerbaijan.png")
+laos_flag = ImageTk.PhotoImage(file="Laos.png")
+tanzania_flag = ImageTk.PhotoImage(file="Tanzania.png")
+benin_flag = ImageTk.PhotoImage(file="Benin.png")
+togo_flag = ImageTk.PhotoImage(file="Togo.png")
+ghana_flag = ImageTk.PhotoImage(file="Ghana.png")
+mali_flag = ImageTk.PhotoImage(file="Mali.png")
+
+# List for the country flags in easy mode
+flags_list_easymode = [america_flag, south_africa_flag, switzerland_flag, turkey_flag, united_kingdom_flag, south_korea_flag, japan_flag, france_flag, new_zealand_flag]
+options_easymode = [["Germany", "France", "Spain", "America"], ["Australia", "Russia", "South Africa", "Brazil"],
+           ["Ireland", "Switzerland", "Cambodia", "China"], ["Thailand", "Indonesia", "Turkey", "Saudi Arabia"],
+           ["United Kingdom", "Australia", "New Zealand", "Norway"], ["Greece", "Vietnam", "Japan", "South Korea"],
+           ["Cuba", "Japan", "Egypt", "China"], ["Egypt", "Iceland", "India", "France"], ["Australia", "America", "New Zealand", "Austra"]]
+correct_answers_easymode = ["America", "South Africa", "Switzerland", "Turkey", "United Kingdom", "South Korea", "Japan", "France", "New Zealand"]
+
+# List for the country flags in hard mode
+flags_list_hardmode = [sweden_flag, jamaica_flag, romania_flag, azerbaijan_flag, laos_flag, tanzania_flag, benin_flag, togo_flag, ghana_flag, mali_flag]
+correct_answers_hardmode = ["Sweden", "Jamaica", "Romania", "Azerbaijan", "Laos", "Tanzania", "Benin", "Togo", "Ghana", "Mali"]
+
+Q_number = 0  # Not really but
 
 # Welcome Screen
 def welcome_screen():
@@ -76,6 +111,7 @@ def welcome_screen():
                             cursor="hand2")  # Sets the background color, text color, and font for the play button
     play_button.place(x=200, y=550, width=200,
                       height=50)  # Sets the x and y position of the play button in the welcome screen
+
 
 # Rules Screen
 def rules_screen():
@@ -162,6 +198,7 @@ def rules_screen():
                           command=game_screen)  # Goes to game screen when the button is clicked
     ok_button.pack(pady=20)
 
+
 # Game Screen
 def game_screen():
     clear_screen()
@@ -184,9 +221,47 @@ def game_screen():
                      lambda event: hard_button.config(image=hard))  # Change back to original image on mouse leave
     hard_button.pack(fill=tk.BOTH, expand=True)
 
+def next_question():
+    global Q_number
+    children_list = []
+    for each_children in root.winfo_children():
+        children_list.append(each_children)
+    deleting_frame = children_list[2]
+    deleting_frame.destroy()
+    # EasyQuestions(canada_flag, "Lol", "India", "Japan", "China", "China")
+    EasyQuestions(flags_list_easymode[Q_number], options_easymode[Q_number][0], options_easymode[Q_number][1], options_easymode[Q_number][2],
+                  options_easymode[Q_number][3], correct_answers_easymode[Q_number])
+    Q_number += 1
+    if Q_number >= len(flags_list_easymode):
+        print('finish')
+
+
 # Creating the questions using classes for easy mode
 class EasyQuestions:
-    def __init__(self, question, flag1, option_one, option_two, option_three, option_four, arrow, master=root):
+
+    # Checks the answer and says if its correct or incorrect
+    def checker(self, answer, selected_button):
+        if selected_button['text'] == answer:
+            selected_button.configure(bg="green")  # Highlight the selected button in green
+            correct_answer_label = tk.Label(self.question_ans_frame, text="Correct!", font=("Helvetica", 16),
+                                            bg="#A4D2CF", fg="green")
+            correct_answer_label.pack(pady=10)
+            self.option_four['state'] = "disabled"
+            self.option_three['state'] = "disabled"
+            self.option_two['state'] = "disabled"
+            self.option_one['state'] = "disabled"
+        else:
+            selected_button.configure(bg="red")  # Highlight the selected button in red
+            incorrect_answer_label = tk.Label(self.question_ans_frame, text="Incorrect!", font=("Helvetica", 16),
+                                              bg="#A4D2CF", fg="red")
+            incorrect_answer_label.pack(pady=10)
+            self.option_four['state'] = "disabled"
+            self.option_three['state'] = "disabled"
+            self.option_two['state'] = "disabled"
+            self.option_one['state'] = "disabled"
+
+    def __init__(self, flag1, option_one, option_two, option_three, option_four, correct_answer, master=root,
+                 question="What flag is this?", arrow=arrow):
         self.width_frame = '600'
         self.bg_frame = "#A4D2CF"
         self.question = question
@@ -195,7 +270,7 @@ class EasyQuestions:
         self.option_two = option_two
         self.option_three = option_three
         self.option_four = option_four
-        self.correct_answer = "Canada"  # Set the correct answer for the question
+        self.correct_answer = correct_answer  # Set the correct answer for the question
 
         self.question_ans_frame = tk.Frame(master, width=self.width_frame, bg='#A4D2CF', height="640")
         self.question_ans_frame.pack()
@@ -214,10 +289,12 @@ class EasyQuestions:
 
         # Arrow button
         self.arrow_button = tk.Button(self.question_ans_frame, image=arrow, bg="#A4D2CF", relief=tk.FLAT,
-                                      command=self.next_question)  # Set the image and add command for the button
+                                      command=next_question)  # Set the image and add command for the button
         self.arrow_button.place(x=450, y=170)  # Adjust the coordinates according to your desired position
-        self.arrow_button.bind("<Enter>",lambda event: self.arrow_button.config(image=arrowv2))  # Change image on mouse enter
-        self.arrow_button.bind("<Leave>", lambda event: self.arrow_button.config(image=arrow))  # Change back to original image on mouse leave
+        self.arrow_button.bind("<Enter>",
+                               lambda event: self.arrow_button.config(image=arrowv2))  # Change image on mouse enter
+        self.arrow_button.bind("<Leave>", lambda event: self.arrow_button.config(
+            image=arrow))  # Change back to original image on mouse leave
 
         # Multiple choice answers
         self.options_frame_one = tk.Frame(self.question_ans_frame, background=self.bg_frame)
@@ -225,22 +302,26 @@ class EasyQuestions:
 
         self.option_one = tk.Button(self.options_frame_one, text=self.option_one, font=("Helvetica", 22, "bold"),
                                     bg="#1CB9F6", fg="#000000", width=13,
-                                    command=lambda: self.check_answer(self.option_one))  # Pass the button as an argument
+                                    command=lambda: self.checker(self.correct_answer,
+                                                                 self.option_one))  # Pass the button as an argument
         self.option_one.pack(side='left', padx=(50, 10), ipady=1)
 
         self.option_two = tk.Button(self.options_frame_one, text=self.option_two, font=("Helvetica", 22, "bold"),
-                                    bg="#1CB9F6", fg="#000000", width=13)
+                                    bg="#1CB9F6", fg="#000000", width=13,
+                                    command=lambda: self.checker(self.correct_answer, self.option_two))
         self.option_two.pack(side='left', padx=(10, 50), ipady=1)
 
         self.options_frame_two = tk.Frame(self.question_ans_frame, background=self.bg_frame)
         self.options_frame_two.pack()
 
         self.option_three = tk.Button(self.options_frame_two, text=self.option_three, font=("Helvetica", 22, "bold"),
-                                      bg="#1CB9F6", fg="#000000", width=13)
+                                      bg="#1CB9F6", fg="#000000", width=13,
+                                      command=lambda: self.checker(self.correct_answer, self.option_three))
         self.option_three.pack(side='left', padx=(50, 10), ipady=1)
 
         self.option_four = tk.Button(self.options_frame_two, text=self.option_four, font=("Helvetica", 22, "bold"),
-                                     bg="#1CB9F6", fg="#000000", width=13)
+                                     bg="#1CB9F6", fg="#000000", width=13,
+                                     command=lambda: self.checker(self.correct_answer, self.option_four))
         self.option_four.pack(side='left', padx=(10, 50), ipady=1)
 
         # From here, this code makes the options the same in width, as they are not from the start
@@ -265,22 +346,6 @@ class EasyQuestions:
         self.option_three.configure(width=self.turn_width_into_pixel)
         self.option_four.configure(width=self.turn_width_into_pixel)
 
-    # Checks the answer and says if its correct or incorrect
-    def check_answer(self, selected_button):
-        if selected_button["text"] == self.correct_answer:
-            selected_button.configure(bg="green")  # Highlight the selected button in green
-            correct_answer_label = tk.Label(self.question_ans_frame, text="Correct!", font=("Helvetica", 16),
-                                            bg="#A4D2CF", fg="green")
-            correct_answer_label.pack(pady=10)
-        else:
-            selected_button.configure(bg="red")  # Highlight the selected button in red
-            incorrect_answer_label = tk.Label(self.question_ans_frame, text="Incorrect!", font=("Helvetica", 16),
-                                              bg="#A4D2CF", fg="red")
-            incorrect_answer_label.pack(pady=10)
-
-    # Goes to next question
-    def next_question(self):
-        self.question_ans_frame.destroy()
 
 # Creating the questions using classes for hard mode
 class HardQuestions:
@@ -289,7 +354,7 @@ class HardQuestions:
         self.bg_frame = "#A4D2CF"
         self.question = question
         self.flag1 = flag1
-        self.correct_answer = "Canada"  # Set the correct answer for the question
+        self.correct_answer = "Sweden"  # Set the correct answer for the question
 
         self.question_ans_frame = tk.Frame(master, width=self.width_frame, bg='#A4D2CF', height="640")
         self.question_ans_frame.pack()
@@ -310,9 +375,11 @@ class HardQuestions:
         self.arrow_button = tk.Button(self.question_ans_frame, image=arrow, bg="#A4D2CF", relief=tk.FLAT,
                                       command=self.next_question)  # Set the image and add command for the button
         self.arrow_button.place(x=387, y=170)  # Adjust the coordinates according to your desired position
-        self.arrow_button.bind("<Enter>",lambda event: self.arrow_button.config(image=arrowv2))  # Change image on mouse enter
-        self.arrow_button.bind("<Leave>", lambda event: self.arrow_button.config(image=arrow))  # Change back to original image on mouse leave
-    
+        self.arrow_button.bind("<Enter>",
+                               lambda event: self.arrow_button.config(image=arrowv2))  # Change image on mouse enter
+        self.arrow_button.bind("<Leave>", lambda event: self.arrow_button.config(
+            image=arrow))  # Change back to original image on mouse leave
+
         # Text box to take in answers
         self.text_entry = tk.Entry(self.question_ans_frame, font=("Helvetica", 16), width=35, bd=2, relief=tk.SOLID)
         self.text_entry.pack(pady=(10, 20))
@@ -339,6 +406,7 @@ class HardQuestions:
     # Goes to the next question
     def next_question(self):
         self.question_ans_frame.destroy()
+
 
 # Easy Mode
 def easy_mode():
@@ -367,12 +435,12 @@ def easy_mode():
 
     root.update()  # Update the GUI to show the countdown labels
 
-    # Starts the quiz after countdown finishes 
+    # Starts the quiz after countdown finishes
     def start_countdown(i):
         if i < 0:
             countdown_label.destroy()
             title_frame.destroy()
-            Q1 = EasyQuestions('What flag is this?', canada_flag, "Canada", "India", "Japan", "China", arrow)
+            Q1 = EasyQuestions(canada_flag, "Canada", "India", "Japan", "China", "Canada")
         elif i > 0:
             countdown_label.config(text=str(i))  # Update the countdown text
             countdown_label.after(1000, start_countdown,
@@ -385,6 +453,7 @@ def easy_mode():
                                   i - 1)  # Call the function again after 1 second with the next number
 
     countdown_text_label.after(1000, start_countdown, 3)  # Start the countdown after 1 second
+
 
 # Hard Mode
 def hard_mode():
@@ -413,12 +482,12 @@ def hard_mode():
 
     root.update()  # Update the GUI to show the countdown labels
 
-    # Starts the quiz after countdown finishes 
+    # Starts the quiz after countdown finishes
     def start_countdown(i):
         if i < 0:
             countdown_label.destroy()
             title_frame.destroy()
-            Q1 = HardQuestions('What flag is this?', canada_flag, arrow)
+            Q1 = HardQuestions('What flag is this?', sweden_flag, arrow)
         elif i > 0:
             countdown_label.config(text=str(i))  # Update the countdown text
             countdown_label.after(1000, start_countdown,
@@ -432,9 +501,11 @@ def hard_mode():
 
     countdown_text_label.after(1000, start_countdown, 3)  # Start the countdown after 1 second
 
+
 # Starts the quiz game
 def start_game(countdown_label, timer_label):
     update_timer(timer_label, 0)  # Start the timer at 0 seconds
+
 
 # Update the timer label
 def update_timer(timer_label, seconds):
@@ -444,10 +515,12 @@ def update_timer(timer_label, seconds):
     seconds += 1
     timer_label.after(1000, update_timer, timer_label, seconds)  # Update the timer after 1 second
 
+
 # Clears the screen
 def clear_screen():
     for widget in root.winfo_children():
         widget.destroy()
+
 
 # Wrong Answer
 def wrong_answer():
@@ -456,6 +529,7 @@ def wrong_answer():
     score_label = tk.Label(root, text="Incorrect!", font=("Helvetica", 16))
     score_label.pack()
     show_score()
+
 
 # Correct Answer
 def correct_answer():
@@ -466,6 +540,7 @@ def correct_answer():
     score_label.pack()
     show_score()
 
+
 # Check Answer
 def check_answer(answer):
     if answer.lower() == "canada":
@@ -473,10 +548,12 @@ def check_answer(answer):
     else:
         wrong_answer()
 
+
 # Show Score
 def show_score():
     score_label = tk.Label(root, text=f"Score: {score}/{total_questions}", font=("Helvetica", 16))
     score_label.pack()
+
 
 # Run the quiz game
 welcome_screen()
