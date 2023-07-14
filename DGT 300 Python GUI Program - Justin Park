@@ -22,6 +22,7 @@ arrow = ImageTk.PhotoImage(file="Arrow.png")
 arrowv2 = ImageTk.PhotoImage(file="Arrow 2.png")
 help_icon = ImageTk.PhotoImage(file="Help Icon.png")
 help_iconv2 = ImageTk.PhotoImage(file="Help Icon 2.png")
+
 # Easy Mode Flags
 canada_flag = ImageTk.PhotoImage(file="Canada.png")
 america_flag = ImageTk.PhotoImage(file="America.png")
@@ -33,6 +34,7 @@ south_korea_flag = ImageTk.PhotoImage(file="South Korea.png")
 japan_flag = ImageTk.PhotoImage(file="Japan.png")
 france_flag = ImageTk.PhotoImage(file="France.png")
 new_zealand_flag = ImageTk.PhotoImage(file="New Zealand.png")
+
 # Hard Mode Flags
 sweden_flag = ImageTk.PhotoImage(file="Sweden.png")
 jamaica_flag = ImageTk.PhotoImage(file="Jamaica.png")
