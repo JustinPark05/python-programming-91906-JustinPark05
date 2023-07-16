@@ -493,22 +493,33 @@ class HardQuestions:
     def check_answer(self):
         global score
         user_answer = self.text_entry.get().strip()  # Get the user's answer from the textbox
-        if user_answer == self.correct_answer:
-            self.text_entry.configure(bg="green", state='disabled',
-                                      highlightbackground='green')  # Highlight the textbox in green for correct answer
-            correct_answer_label = tk.Label(self.question_ans_frame, text="Correct!", font=("Helvetica", 16),
-                                            bg="#A4D2CF", fg="green")
-            correct_answer_label.pack(pady=10)
-            self.submit_button['state'] = "disabled"  # Disable the submit_button
-            self.arrow_button['state'] = "normal"  # Enable the arrow_button
-            score +=1
+
+        # Check if the user's answer contains only alphabetic characters
+        if user_answer.isalpha():
+            if user_answer == self.correct_answer:
+                self.text_entry.configure(bg="green", state='disabled', highlightbackground='green')
+                correct_answer_label = tk.Label(self.question_ans_frame, text="Correct!", font=("Helvetica", 16),
+                                                bg="#A4D2CF", fg="green")
+                correct_answer_label.pack(pady=10)
+                self.submit_button['state'] = "disabled"
+                self.arrow_button['state'] = "normal"
+                score += 1
+            else:
+                self.text_entry.configure(bg="red", state='disabled')
+                incorrect_answer_label = tk.Label(self.question_ans_frame, text="Incorrect!", font=("Helvetica", 16),
+                                                  bg="#A4D2CF", fg="red")
+                incorrect_answer_label.pack(pady=10)
+                self.submit_button['state'] = "disabled"
+                self.arrow_button['state'] = "normal"
         else:
-            self.text_entry.configure(bg="red", state='disabled')  # Highlight the textbox in red for incorrect answer
-            incorrect_answer_label = tk.Label(self.question_ans_frame, text="Incorrect!", font=("Helvetica", 16),
-                                              bg="#A4D2CF", fg="red")
-            incorrect_answer_label.pack(pady=10)
-            self.submit_button['state'] = "disabled"  # Disable the submit_button
-            self.arrow_button['state'] = "normal"  # Enable the arrow_button
+            # States that you can only enter in alphabetic characters
+            invalid_answer_label = tk.Label(self.question_ans_frame,
+                                            text="Invalid answer! Please enter only alphabetic characters.",
+                                            font=("Helvetica", 16), bg="#A4D2CF", fg="red")
+            invalid_answer_label.pack(pady=10)
+            self.text_entry ['state'] = "disabled"
+            self.submit_button['state'] = "disabled"
+            self.arrow_button['state'] = "normal"
 
     # Goes to the next question
     def next_question(self):
