@@ -4,7 +4,7 @@ from PIL import Image, ImageTk
 
 # Global Variables
 score = 0
-total_questions = 0
+total_questions = 9
 
 # Main Window
 root = tk.Tk()
@@ -67,12 +67,10 @@ flags_list_hardmode = [jamaica_flag, romania_flag, azerbaijan_flag, laos_flag, t
                        ghana_flag, mali_flag]
 correct_answers_hardmode = ["Jamaica", "Romania", "Azerbaijan", "Laos", "Tanzania", "Benin", "Togo", "Ghana", "Mali"]
 
-Q_number = 0  # Not really but
-
+Q_number = 0
 
 # Welcome Screen
 def welcome_screen():
-    global total_questions
     welcome_label = tk.Label(root, text="Welcome to Justin's Quiz Game!", font=("Helvetica", 22, "bold"),
                              bg="#A4D2CF")  # Sets the background color of the label and makes the text bold
     welcome_label.place(x=300, y=100, anchor="center")  # Sets the x and y position of the label in the welcome screen
@@ -307,6 +305,7 @@ class EasyQuestions:
 
     # Checks the answer and says if its correct or incorrect
     def checker(self, answer, selected_button):
+        global score
         if selected_button['text'] == answer:
             selected_button.configure(bg="green")  # Highlight the selected button in green
             correct_answer_label = tk.Label(self.question_ans_frame, text="Correct!", font=("Helvetica", 16),
@@ -317,6 +316,7 @@ class EasyQuestions:
             self.option_two['state'] = "disabled"
             self.option_one['state'] = "disabled"
             self.arrow_button['state'] = 'normal' # Enable the arrow_button
+            score +=1
         else:
             selected_button.configure(bg="red")  # Highlight the selected button in red
             incorrect_answer_label = tk.Label(self.question_ans_frame, text="Incorrect!", font=("Helvetica", 16),
@@ -469,6 +469,7 @@ class HardQuestions:
             pass
 
     def check_answer(self):
+        global score
         user_answer = self.text_entry.get().strip()  # Get the user's answer from the textbox
         if user_answer.lower() == self.correct_answer.lower():
             self.text_entry.configure(bg="green", state='disabled',
@@ -478,6 +479,7 @@ class HardQuestions:
             correct_answer_label.pack(pady=10)
             self.submit_button['state'] = "disabled"  # Disable the submit_button
             self.arrow_button['state'] = "normal"  # Enable the arrow_button
+            score +=1
         else:
             self.text_entry.configure(bg="red", state='disabled')  # Highlight the textbox in red for incorrect answer
             incorrect_answer_label = tk.Label(self.question_ans_frame, text="Incorrect!", font=("Helvetica", 16),
@@ -617,15 +619,11 @@ def clear_screen():
     for widget in root.winfo_children():
         widget.destroy()
 
-
 # Wrong Answer
 def wrong_answer():
-    global score
     clear_screen()  # Clear the screen
     score_label = tk.Label(root, text="Incorrect!", font=("Helvetica", 16))
     score_label.pack()
-    show_score()
-
 
 # Correct Answer
 def correct_answer():
@@ -634,13 +632,6 @@ def correct_answer():
     clear_screen()  # Clear the screen
     score_label = tk.Label(root, text="Correct!", font=("Helvetica", 16))
     score_label.pack()
-    show_score()
-
-# Show Score
-def show_score():
-    score_label = tk.Label(root, text=f"Score: {score}/{total_questions}", font=("Helvetica", 16))
-    score_label.pack()
-
 
 # Run the quiz game
 welcome_screen()
