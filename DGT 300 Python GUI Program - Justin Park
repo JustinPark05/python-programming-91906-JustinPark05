@@ -249,12 +249,11 @@ def next_question():
         congratulations_screen(time_taken)
 
 # Saving data to a text file
-def export_data(time_set):
-    time_taken = time_set
+def export_data():
     num_correct_answers = score
     accuracy_percentage = int((num_correct_answers / total_questions) * 100)
-
-    file_path = "C:/Users/juzti/PycharmProjects/dgt test/file.txt"
+    print("Your statistics have been successfully exported as a text file to your designated file location!")
+    file_path = "C:/Users/juzti/Downloads/test.txt" # Change this to where you want your file to be downloaded
     with open(file_path, "w") as file:
         file.write("Congratulations on finishing my quiz game!\n")
         file.write("You took " + str(time_taken) + " to finish the quiz!\n")
