@@ -253,12 +253,35 @@ def export_data():
     num_correct_answers = score
     accuracy_percentage = int((num_correct_answers / total_questions) * 100)
     print("Your statistics have been successfully exported as a text file to your designated file location!")
-    file_path = "C:/Users/juzti/Downloads/test.txt" # Change this to where you want your file to be downloaded
+    file_path = "C:/Users/juzti/Downloads/Quiz Game Statistics.txt" # Change this to where you want your file to be downloaded
     with open(file_path, "w") as file:
         file.write("Congratulations on finishing my quiz game!\n")
         file.write("You took " + str(time_taken) + " to finish the quiz!\n")
         file.write("You got " + str(num_correct_answers) + " questions correct!\n")
-        file.write("You scored a " + str(accuracy_percentage) + "% accuracy!\n")
+        file.write("You scored a " + str(accuracy_percentage) + "% accuracy!\n\n")
+        file.write("-----Here are the Answers of the quiz:-----\n\n")
+        file.write("* Easy Mode *\n")
+        file.write("1. Canada\n")
+        file.write("2. America\n")
+        file.write("3. South Africa\n")
+        file.write("4. Switzerland\n")
+        file.write("5. Turkey\n")
+        file.write("6. United Kingdom\n")
+        file.write("7. South Korea\n")
+        file.write("8. Japan\n")
+        file.write("9. France\n")
+        file.write("10. New Zealand\n\n")
+        file.write("* Hard Mode *\n")
+        file.write("1. Sweden\n")
+        file.write("2. Jamaica\n")
+        file.write("3. Romania\n")
+        file.write("4. Azerbaijan\n")
+        file.write("5. Laos\n")
+        file.write("6. Tanzania\n")
+        file.write("7. Benin\n")
+        file.write("8. Togo\n")
+        file.write("9. Ghana\n")
+        file.write("10. Mali\n")
 
 # Congratulations screen
 def congratulations_screen(time_set):
