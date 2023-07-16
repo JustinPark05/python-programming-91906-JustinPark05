@@ -493,7 +493,7 @@ class HardQuestions:
     def check_answer(self):
         global score
         user_answer = self.text_entry.get().strip()  # Get the user's answer from the textbox
-        if user_answer.lower() == self.correct_answer.lower():
+        if user_answer == self.correct_answer:
             self.text_entry.configure(bg="green", state='disabled',
                                       highlightbackground='green')  # Highlight the textbox in green for correct answer
             correct_answer_label = tk.Label(self.question_ans_frame, text="Correct!", font=("Helvetica", 16),
