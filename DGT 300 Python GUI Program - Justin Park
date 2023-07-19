@@ -60,7 +60,7 @@ options_easymode = [["Germany", "France", "Spain", "America"], ["Australia", "Ru
                     ["United Kingdom", "Australia", "New Zealand", "Norway"],
                     ["Greece", "Vietnam", "Japan", "South Korea"],
                     ["Cuba", "Japan", "Egypt", "China"], ["Egypt", "Iceland", "India", "France"],
-                    ["Australia", "America", "New Zealand", "Austra"]]
+                    ["Australia", "America", "New Zealand", "Austria"]]
 # Correct answers list
 correct_answers_easymode = ["America", "South Africa", "Switzerland", "Turkey", "United Kingdom", "South Korea",
                             "Japan", "France", "New Zealand"]
