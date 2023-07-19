@@ -2,10 +2,6 @@ import tkinter as tk
 import time
 from PIL import Image, ImageTk
 
-# Global Variables
-score = 0
-total_questions = 9
-
 # Main Window
 root = tk.Tk()
 root.title("Justin's Quiz Game")
@@ -49,9 +45,15 @@ togo_flag = ImageTk.PhotoImage(file="Togo.png")
 ghana_flag = ImageTk.PhotoImage(file="Ghana.png")
 mali_flag = ImageTk.PhotoImage(file="Mali.png")
 
+# Global Variables
+score = 0
+total_questions = 9
+
 # List for the country flags in easy mode
+# Flag questions list
 flags_list_easymode = [america_flag, south_africa_flag, switzerland_flag, turkey_flag, united_kingdom_flag,
                        south_korea_flag, japan_flag, france_flag, new_zealand_flag]
+# Multiple choice answers list
 options_easymode = [["Germany", "France", "Spain", "America"], ["Australia", "Russia", "South Africa", "Brazil"],
                     ["Ireland", "Switzerland", "Cambodia", "China"],
                     ["Thailand", "Indonesia", "Turkey", "Saudi Arabia"],
@@ -59,12 +61,15 @@ options_easymode = [["Germany", "France", "Spain", "America"], ["Australia", "Ru
                     ["Greece", "Vietnam", "Japan", "South Korea"],
                     ["Cuba", "Japan", "Egypt", "China"], ["Egypt", "Iceland", "India", "France"],
                     ["Australia", "America", "New Zealand", "Austra"]]
+# Correct answers list
 correct_answers_easymode = ["America", "South Africa", "Switzerland", "Turkey", "United Kingdom", "South Korea",
                             "Japan", "France", "New Zealand"]
 
 # List for the country flags in hard mode
+# Flag questions list
 flags_list_hardmode = [jamaica_flag, romania_flag, azerbaijan_flag, laos_flag, tanzania_flag, benin_flag, togo_flag,
                        ghana_flag, mali_flag]
+# Answers list
 correct_answers_hardmode = ["Jamaica", "Romania", "Azerbaijan", "Laos", "Tanzania", "Benin", "Togo", "Ghana", "Mali"]
 
 Q_number = 0
@@ -77,6 +82,7 @@ def welcome_screen():
 
     # Help window
     def open_help_window():
+        # Opens new window with same geometry
         help_window = tk.Toplevel(root)
         help_window.title("How To Play Justin’s Quiz Game")
         help_window.geometry("600x650")
@@ -107,6 +113,7 @@ def welcome_screen():
     # Help icon Button
     help_icon_button = tk.Button(root, image=help_icon, bg="#A4D2CF", relief=tk.FLAT, command=open_help_window)
     help_icon_button.place(x=10, y=10)
+    # Hover effect of the help button
     help_icon_button.bind("<Enter>", lambda event: help_icon_button.config(image=help_iconv2))
     help_icon_button.bind("<Leave>", lambda event: help_icon_button.config(image=help_icon))
 
@@ -120,7 +127,6 @@ def welcome_screen():
                             cursor="hand2")  # Sets the background color, text color, and font for the play button
     play_button.place(x=200, y=550, width=200,
                       height=50)  # Sets the x and y position of the play button in the welcome screen
-
 
 # Rules Screen
 def rules_screen():
@@ -147,6 +153,7 @@ def rules_screen():
 
     # Help window
     def open_help_window():
+        # Opens new window with same geometry
         help_window = tk.Toplevel(root)
         help_window.title("How To Play Justin’s Quiz Game")
         help_window.geometry("600x650")
@@ -177,6 +184,7 @@ def rules_screen():
     # Help Icon Button
     help_icon_button = tk.Button(root, image=help_icon, bg="#A4D2CF", relief=tk.FLAT, command=open_help_window)
     help_icon_button.place(x=10, y=10)
+    # Hover effect of help button
     help_icon_button.bind("<Enter>", lambda event: help_icon_button.config(image=help_iconv2))
     help_icon_button.bind("<Leave>", lambda event: help_icon_button.config(image=help_icon))
 
@@ -230,6 +238,7 @@ def game_screen():
                      lambda event: hard_button.config(image=hard))  # Change back to original image on mouse leave
     hard_button.pack(fill=tk.BOTH, expand=True)
 
+# Go to the next question
 def next_question():
     global Q_number
     children_list = []
@@ -253,7 +262,8 @@ def export_data():
     num_correct_answers = score
     accuracy_percentage = int((num_correct_answers / total_questions) * 100)
     print("Your statistics have been successfully exported as a text file to your designated file location!")
-    file_path = "C:/Users/juzti/Downloads/Quiz Game Statistics.txt" # Change this to where you want your file to be downloaded
+    # Creates a text file to the file path put here
+    file_path = "C:/Users/justin.park/Downloads/Quiz Game Statistics.txt" # Change this to where you want your file to be downloaded
     with open(file_path, "w") as file:
         file.write("Congratulations on finishing my quiz game!\n")
         file.write("You took " + str(time_taken) + " to finish the quiz!\n")
@@ -317,6 +327,7 @@ def congratulations_screen(time_set):
                              font=("Helvetica", 16), bg="#1CB9F6", fg="#000000")
     content_label.pack(pady=20)
 
+    # Exports the statistics to a text file 
     export_button = tk.Button(frame, text="Export Statistics", font=("Helvetica", 14), bg="#A4D2CF", fg="#000000",
                               relief=tk.SOLID, bd=2, padx=10, pady=5, command=export_data)
     export_button.pack()
